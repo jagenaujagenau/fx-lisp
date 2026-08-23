@@ -1,0 +1,9 @@
+#!/bin/sh
+# fx launcher — loads the Common Lisp port and runs the CLI.
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+exec sbcl --noinform --disable-debugger \
+  --eval "(require :asdf)" \
+  --eval "(asdf:load-asd #p\"$ROOT/fx.asd\")" \
+  --eval "(handler-bind ((warning #'muffle-warning)) (asdf:load-system :fx))" \
+  --eval "(fx:main)" \
+  --quit -- "$@"
